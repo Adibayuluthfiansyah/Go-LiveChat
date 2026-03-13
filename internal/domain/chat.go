@@ -3,11 +3,15 @@ package domain
 import "time"
 
 type Stream struct {
-	ID        string    `json:"id" gorm:"primaryKey;type:varchar(100)"`
-	Title     string    `json:"title" gorm:"not null;default:'Untitled Stream'"`
-	IsLive    bool      `json:"is_live" gorm:"default:false"`
-	CreatedAt time.Time `json:"created_at" gorm:"autoCreateTime"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
+	ID                string    `json:"id" gorm:"primaryKey;type:varchar(100)"`
+	Title             string    `json:"title" gorm:"not null;default:'Untitled Stream'"`
+	Category          string    `json:"category" gorm:"size:100"`
+	ThumbnailURL      string    `json:"thumbnail_url" gorm:"size:255"`
+	IsLive            bool      `json:"is_live" gorm:"default:false"`
+	EnableDonation    bool      `json:"enable_donation" gorm:"default:true"`
+	FollowersOnlyChat bool      `json:"followers_only_chat" gorm:"default:false"`
+	CreatedAt         time.Time `json:"created_at" gorm:"autoCreateTime"`
+	UpdatedAt         time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }
 
 type Message struct {

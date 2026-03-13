@@ -3,6 +3,7 @@ package postgres
 import (
 	"github.com/Adibayuluthfiansyah/Go-LiveChat/internal/domain"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type chatPG struct {
@@ -17,7 +18,7 @@ func NewChatRepository(db *gorm.DB) domain.ChatRepository {
 
 // create stream
 func (r *chatPG) CreateStream(stream *domain.Stream) error {
-	return r.db.Create(stream).Error
+	return r.db.Clauses(clause.OnConflict{UpdateAll: true}).Create(stream).Error
 }
 
 // update stream
@@ -36,6 +37,9 @@ func (r *chatPG) GetMessagesByStreamID(streamID string, limit int) ([]domain.Mes
 	err := r.db.Where("stream_id = ?", streamID).Order("created_at desc").Limit(limit).Find(&messages).Error
 	if err != nil {
 		return nil, err
+	}
+	for i, j := 0, len(messages)-1; i < j; i, j = i+1, j-1 {
+		messages[i], messages[j] = messages[j], messages[i]
 	}
 	return messages, nil
 }

@@ -33,16 +33,16 @@ func (h *UserHandler) HandlerClerkWebhook(c *gin.Context) {
 		return
 	}
 
-	user := &domain.User{
-		ID:        payload.Data.ID,
-		Username:  payload.Data.Username,
-		Email:     payload.Data.EmailAddress,
-		AvatarURL: payload.Data.ImageURL,
-	}
-	if err := h.userUsecase.SyncUserFromAuth(user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	// user := &domain.User{
+	// 	ID:        payload.Data.ID,
+	// 	Username:  payload.Data.Username,
+	// 	Email:     payload.Data.EmailAddress,
+	// 	AvatarURL: payload.Data.ImageURL,
+	// }
+	// if err := h.userUsecase.SyncUserFromAuth(user); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
 	if payload.Type == "user.created" || payload.Type == "user.updated" {
 		user := &domain.User{
 			ID:        payload.Data.ID,
