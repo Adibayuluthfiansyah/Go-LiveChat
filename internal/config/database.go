@@ -27,7 +27,7 @@ func ConnectDatabase() {
 		log.Fatal("Gagal terhubung ke database:", err)
 	}
 
-	err = database.AutoMigrate(&domain.User{})
+	err = database.AutoMigrate(&domain.User{}, &domain.Stream{}, &domain.Message{})
 	if err != nil {
 		log.Fatal("Failed migration database:", err)
 	}

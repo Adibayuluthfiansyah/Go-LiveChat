@@ -2,8 +2,8 @@
 
 <img src="https://readme-typing-svg.demolab.com?font=Bebas+Neue&size=80&pause=1000&color=FF2D4E&center=true&vCenter=true&width=600&height=120&lines=RAWVE" alt="RAWVE" />
 
-### **Your Stream. Your Rules. Your Revenue.**
-*Freedom without limits — but never without responsibility.*
+### **Lower Cut. Full Control. Open Source.**
+*The streaming platform that's actually on your side.*
 
 <br/>
 
@@ -16,14 +16,13 @@
 
 <br/>
 
-> RAWVE is an **open-source live streaming backend** engineered for extreme performance,
-> massive scalability, and creator-first fairness. We believe creators deserve
-> full control over their community and revenue — backed by a moderation system
-> that keeps the ecosystem healthy and safe for everyone.
+> RAWVE is an **open-source live streaming backend** built for creators who want
+> real ownership — of their community, their rules, and their revenue.
+> We take a smaller cut so we can keep the lights on. Nothing more, nothing hidden.
 
 <br/>
 
-[**Get Started**](#-getting-started) · [**Architecture**](#-architecture) · [**Roadmap**](#-roadmap) · [**Contributing**](#-contributing)
+[**Get Started**](#-getting-started) · [**Why RAWVE**](#-why-rawve) · [**Architecture**](#-architecture) · [**Monetization**](#-how-rawve-makes-money) · [**Roadmap**](#-roadmap) · [**Contributing**](#-contributing)
 
 </div>
 
@@ -31,16 +30,59 @@
 
 ## ✨ Why RAWVE?
 
-Most streaming platforms take your audience, clip your revenue, and decide your rules.
+Most streaming platforms treat creators as a product — taking half their revenue, owning their audience data, and making all the rules.
 
-**RAWVE flips that model.**
+**RAWVE is different in three ways that actually matter.**
 
-| Platform | Revenue Cut | Creator Control | Open Source |
-|---|---|---|---|
-| Twitch | ~50% | Limited | ❌ |
-| YouTube Live | ~45% | Limited | ❌ |
-| TikTok Live | ~70%+ | Minimal | ❌ |
-| **RAWVE** | **0% platform cut** | **Full** | **✅** |
+### 1. Lower cut than every major platform
+
+We take **15%** — not because we're greedy, but because running global infrastructure costs real money. We'd rather be honest about that than pretend it's free while quietly extracting more.
+
+| Platform | Revenue Cut | What's left for you |
+|---|---|---|
+| TikTok Live | ~70%+ | ~30% |
+| Twitch | ~50% | ~50% |
+| YouTube Live | ~45% | ~55% |
+| **RAWVE** | **15%** | **85%** |
+
+### 2. Full creator control
+
+On RAWVE, you own your community. That means:
+
+- **Your moderation rules** — set your own content policies, not ours
+- **Your audience data** — we don't hold your subscribers hostage
+- **Your monetization model** — charge what you want, how you want
+- **Your stream key** — take it anywhere, point it at any ingest server
+
+### 3. Fully open source (MIT)
+
+Every line of code that powers RAWVE is public. You can audit it, fork it, self-host it, or contribute to it. No black boxes, no vendor lock-in, no surprises.
+
+---
+
+## 💰 How RAWVE Makes Money
+
+We believe transparency builds trust. Here's exactly how we stay sustainable.
+
+**RAWVE takes 15% of creator monetization transactions** — donations, tips, paid subscriptions between creators and their fans. That's it.
+
+```
+Example — a viewer sends a $10 tip:
+  Creator receives   $8.50  (85%)
+  RAWVE platform fee $1.50  (15%)
+```
+
+**Why 15% and not lower?**
+
+Running a global live streaming infrastructure is expensive — CDN bandwidth, media servers, databases, engineering. At our projected scale of 1,000–10,000 active streamers, 15% is the floor that keeps us operational without outside funding.
+
+We publish our infrastructure cost estimates publicly. When we become more efficient at scale, we will lower the cut. That's a commitment, not a marketing line.
+
+**What we will never do:**
+- Take a hidden cut on top of the stated 15%
+- Sell creator or viewer data to advertisers
+- Lock you into our platform or hold your audience data hostage
+- Raise the cut without a 90-day public notice period
 
 ---
 
@@ -51,12 +93,16 @@ Most streaming platforms take your audience, clip your revenue, and decide your 
 | ✅ | **Secure Authentication** | Webhook integration & JWT verification via Clerk |
 | ✅ | **Clean Architecture** | Strict Domain / Usecase / Repository / Delivery separation |
 | 🔧 | **Real-time Live Chat** | Lightning-fast messaging with Gorilla WebSocket |
-| 🔧 | **Stream Management** | Creator live stage (Stream) creation and control |
-| 📋 | **Fair Monetization** | Payment gateway with zero platform cuts |
+| 🔧 | **Stream Management** | Creator live stage creation and control |
+| 📋 | **Monetization Engine** | Tip/donation flow with transparent 15% platform fee |
 | 📋 | **Creator Analytics** | Real-time viewers, revenue, and engagement dashboard |
-| 📋 | **Content Moderation** | Community-driven + automated moderation system |
+| 📋 | **Content Moderation Tools** | Creator-controlled moderation with optional automation |
+| 📋 | **Self-host Mode** | Full self-hosting with zero platform fee (open source) |
+| 📋 | **Enterprise License** | Private instances for organizations and media companies |
 
 > `✅ Done` · `🔧 In Progress` · `📋 Planned`
+
+> **Note on self-hosting:** Because RAWVE is MIT-licensed, you can always self-host with 0% cut. The 15% only applies to creators using RAWVE's hosted infrastructure. We think that's fair.
 
 ---
 
@@ -69,6 +115,7 @@ WebSocket       →  Gorilla WebSocket
 ORM & Database  →  GORM + PostgreSQL
 Authentication  →  Clerk SDK (JWT Verification)
 Infrastructure  →  Docker & Docker Compose
+CDN             →  Cloudflare / Bunny.net (recommended)
 ```
 
 ---
@@ -130,8 +177,6 @@ HTTP Request
 
 ### Prerequisites
 
-Make sure you have these installed:
-
 - [Go 1.25+](https://golang.org/doc/install)
 - [Docker & Docker Compose](https://docs.docker.com/get-docker/)
 - A [Clerk](https://clerk.com) account (free tier works)
@@ -139,7 +184,7 @@ Make sure you have these installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone [https://github.com/Adibayuluthfiansyah/RAWVE-LiveStream-Platform.git](https://github.com/Adibayuluthfiansyah/RAWVE-LiveStream-Platform.git)
+git clone https://github.com/Adibayuluthfiansyah/RAWVE-LiveStream-Platform.git
 cd RAWVE-LiveStream-Platform
 ```
 
@@ -263,8 +308,8 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 <br/>
 
-> *"I built RAWVE because I believe the internet needs a streaming platform*
-> *that genuinely puts creators first — not as a product, but as owners."*
+> *"I built RAWVE because creators deserve a platform that's honest with them —
+> about what it takes, what it costs, and what they get in return."*
 
 <br/>
 
@@ -276,6 +321,8 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 RAWVE is open-source software licensed under the [MIT License](LICENSE).
 
+Self-hosting is always free and always will be. The 15% platform fee only applies to creators using RAWVE's hosted infrastructure.
+
 ---
 
 <div align="center">
@@ -286,6 +333,6 @@ Built with ❤️ for creators who deserve better.
 
 <br/>
 
-*"Your Stream. Your Rules. Your Revenue."*
+*"Lower Cut. Full Control. Open Source."*
 
 </div>

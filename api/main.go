@@ -6,6 +6,7 @@ import (
 
 	"github.com/Adibayuluthfiansyah/Go-LiveChat/internal/config"
 	"github.com/Adibayuluthfiansyah/Go-LiveChat/internal/delivery/http/middleware"
+	"github.com/Adibayuluthfiansyah/Go-LiveChat/internal/delivery/websocket"
 	"github.com/Adibayuluthfiansyah/Go-LiveChat/internal/handlers"
 	"github.com/Adibayuluthfiansyah/Go-LiveChat/internal/repository/postgres"
 	"github.com/Adibayuluthfiansyah/Go-LiveChat/internal/usecase"
@@ -15,34 +16,52 @@ import (
 func main() {
 	config.LoadConfig()
 	config.ConnectDatabase()
+
 	router := gin.Default()
+
+	// inject
+	userRepo := postgres.NewUserRepository(config.DB)
+	userUseCase := usecase.NewUserUsecase(userRepo)
+
+	chatRepo := postgres.NewChatRepository(config.DB)
+	chatUseCase := usecase.NewChatUsecase(chatRepo)
+
+	// Nyalakan Menara Pemancar WebSocket
+	hub := websocket.NewHub(chatUseCase)
+	go hub.Run()
+
+	// route
 	api := router.Group("/api")
 
-	// protected
+	// public route
+	api.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{"message": "Server RAWVE is running!"})
+	})
+
+	handlers.NewUserHandler(api, userUseCase)
+
+	api.GET("/ws/chat/:stream_id", func(c *gin.Context) {
+		websocket.ServeWS(hub, c)
+	})
+
+	// route clerk
 	protected := api.Group("/")
 	protected.Use(middleware.RequireAuth())
 
-	router.GET("/dashboard", func(c *gin.Context) {
+	protected.GET("/dashboard", func(c *gin.Context) {
 		user_id, _ := c.Get("user_id")
-		c.JSON(200, gin.H{"message": "This Dashboard Page",
+		c.JSON(200, gin.H{
+			"message": "Welcome to Creator Studio RAWVE!",
 			"user_id": user_id,
 			"status":  "success",
 		})
 	})
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "Server is running"})
-	})
-
-	userRepo := postgres.NewUserRepository(config.DB)
-	userUseCase := usecase.NewUserUsecase(userRepo)
-
-	handlers.NewUserHandler(api, userUseCase)
-
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
+
 	log.Printf("Server running at http://localhost:%s", port)
 	if err := router.Run(":" + port); err != nil {
 		log.Fatal(err)
