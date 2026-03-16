@@ -26,7 +26,7 @@ func main() {
 	chatRepo := postgres.NewChatRepository(config.DB)
 	chatUseCase := usecase.NewChatUsecase(chatRepo)
 
-	// Nyalakan Menara Pemancar WebSocket
+	// websocket
 	hub := websocket.NewHub(chatUseCase)
 	go hub.Run()
 
@@ -47,6 +47,9 @@ func main() {
 	// route clerk
 	protected := api.Group("/")
 	protected.Use(middleware.RequireAuth())
+
+	// handler protected route
+	handlers.NewStreamHandler(protected, chatUseCase)
 
 	protected.GET("/dashboard", func(c *gin.Context) {
 		user_id, _ := c.Get("user_id")
